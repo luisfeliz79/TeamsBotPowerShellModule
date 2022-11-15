@@ -58,36 +58,37 @@ This allows end users to store the WebhookUrl in a secure vault such as Azure Ke
 
 ### The *Send-TeamsBotMessage* command supports these additional parameters:
 
-   - AppName <String>
+   - AppName
 
        Optionally include the app name and make it clickiable using markdown
 
-   - SubTitle <String>
+   - SubTitle
 
        Optionally include a Subtitle which will appear in bold face
-
-   - Table <Object>
-
+   
+   - Table
+   
        Optionally include a table of items (Array of PsCustomObject)
-       Ex. an Object formatted like this:
+   
        ```powershell
+       # Example
        $myTable=@()
        $myTable+=[PsCustomObject]@{Resource="Graph";App="Windows";User="Luis"}
        $myTable+=[PsCustomObject]@{Resource="Graph";App="Office";User="Mike"}
        ```
-   - ActionButtonTitle <String>
+   - ActionButtonTitle
 
        Optionally include an Action button, with this caption
 
-   - ActionButtonLink <String>
+   - ActionButtonLink
 
        Url Link for the button
-    
+
 ## Send a Customized Adaptive Card
    
 ### Use this option when:
    - You need to have multiple Action Buttons
    - You want to include multiple combinations of Tables and Textblocks
    - You want to customize the look and feel of the Card
-     (Instructions coming soon)
+   - Instructions coming soon
 
