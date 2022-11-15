@@ -25,7 +25,7 @@ https://github.com/OfficeDev/TeamsFx-Samples/tree/v1.0.0/incoming-webhook-notifi
 
 1. [Add an incoming webhook in Teams](https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook#create-an-incoming-webhook-1)
     ```
-    Note, the Webhook Name is using facing, pick a nice name :-)
+    Note: The Webhook Name is using facing, pick a nice name :-)
     ```
 2. Install the latest version of TeamsBot from PowerShellGallery
     ```powershell
@@ -35,7 +35,7 @@ https://github.com/OfficeDev/TeamsFx-Samples/tree/v1.0.0/incoming-webhook-notifi
 2. Securely store the WebHookUrl (these should be treated as secrets)
     
     ```powershell
-    # Note: this command will store the Url in an encrypted file under $Home
+    # Note: This command will store the Url in an encrypted file under $Home
 
     Set-TeamsBotWebHookUrl -WebHookUrl https://xxxxxx
     ```
@@ -84,7 +84,7 @@ This allows end users to store the WebhookUrl in a secure vault such as Azure Ke
        Url Link for the button
     
 ## Send a Customized Adaptive Card
-
+   
 ### Use this option when:
    - You need to have multiple Action Buttons
    - You want to include multiple combinations of Tables and Textblocks
