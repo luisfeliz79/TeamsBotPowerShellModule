@@ -7,6 +7,8 @@
 #### Based on the Teams Bots samples listed here:
 https://github.com/OfficeDev/TeamsFx-Samples/tree/v1.0.0/incoming-webhook-notification
 
+### This module is hosted in PowerShell Gallery
+https://www.powershellgallery.com/packages/TeamsBot
 
 ## Key features
    - Send Messages to a teams channel
