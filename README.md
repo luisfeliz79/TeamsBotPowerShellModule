@@ -25,7 +25,7 @@ https://github.com/OfficeDev/TeamsFx-Samples/tree/v1.0.0/incoming-webhook-notifi
 
 1. [Add an incoming webhook in Teams](https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook#create-an-incoming-webhook-1)
     ```
-    Note, the Webhook Name is using facing, pick something User friendly.
+    Note, the Webhook Name is using facing, pick a nice name :-)
     ```
 2. Install the latest version of TeamsBot from PowerShellGallery
     ```powershell
@@ -35,7 +35,7 @@ https://github.com/OfficeDev/TeamsFx-Samples/tree/v1.0.0/incoming-webhook-notifi
 2. Securely store the WebHookUrl (these should be treated as secrets)
     
     ```powershell
-    # Note: this command will store the Url in an encrypte file under $Home
+    # Note: this command will store the Url in an encrypted file under $Home
 
     Set-TeamsBotWebHookUrl -WebHookUrl https://xxxxxx
     ```
@@ -56,40 +56,38 @@ This allows end users to store the WebhookUrl in a secure vault such as Azure Ke
 &nbsp;
 ## Additional Message options
 
-### The *Send-TeamsBotMessage* command include these additional parameters:
-   
-- AppName <String>
+### The *Send-TeamsBotMessage* command supports these additional parameters:
 
-    Optionally include the app name and make it clickiable using markdown
+   - AppName <String>
 
-- SubTitle <String>
+       Optionally include the app name and make it clickiable using markdown
 
-    Optionally include a Subtitle which will appear bolded
+   - SubTitle <String>
 
-- Table <Object>
+       Optionally include a Subtitle which will appear in bold face
 
-    Optionally include a table of Key/value pairs (Array of PsCustomObject)
-    Ex. an Object formatted like this:
-    ```powershell
-    $myTable=@()
-    $myTable+=[PsCustomObject]@{Resource="Graph";App="Windows";User="Luis"}
-    $myTable+=[PsCustomObject]@{Resource="Graph";App="Office";User="Mike"}
-    ```
-- ActionButtonTitle <String>
+   - Table <Object>
 
-    Optionally include a button with this title
+       Optionally include a table of items (Array of PsCustomObject)
+       Ex. an Object formatted like this:
+       ```powershell
+       $myTable=@()
+       $myTable+=[PsCustomObject]@{Resource="Graph";App="Windows";User="Luis"}
+       $myTable+=[PsCustomObject]@{Resource="Graph";App="Office";User="Mike"}
+       ```
+   - ActionButtonTitle <String>
 
-- ActionButtonLink <String>
+       Optionally include an Action button, with this caption
 
-    Url Link for the button
+   - ActionButtonLink <String>
 
-&nbsp;
+       Url Link for the button
+    
 ## Send a Customized Adaptive Card
 
 ### Use this option when:
-- You need to have multiple Action Buttons
-- You want to include multiple combinations of Tables and Textblocks
-- You want to customize the look and feel of the Card
-
-(Instructions coming soon)
+   - You need to have multiple Action Buttons
+   - You want to include multiple combinations of Tables and Textblocks
+   - You want to customize the look and feel of the Card
+     (Instructions coming soon)
 
