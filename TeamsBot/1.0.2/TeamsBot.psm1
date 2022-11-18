@@ -128,6 +128,9 @@ function Send-TeamsBotMessage () {
   
       [Parameter(Mandatory = $true, ParameterSetName = 'UsingCard')] 
       [PsCustomObject]$Card,
+
+      [Parameter(Mandatory = $true, ParameterSetName = 'UsingCardJson')] 
+      [PsCustomObject]$CardJson,
   
       [Parameter(Mandatory = $false)] 
       [String]$WebhookURL
@@ -186,6 +189,28 @@ function Send-TeamsBotMessage () {
         break
       }
   
+    }
+
+    If ($CardJson) {
+      # A Raw card in JSON Format
+      $CardObject=$CardJson | ConvertFrom-Json
+
+      if ($CardObject.type -eq 'AdaptiveCard') {
+  
+        Write-Verbose -Message "Using a pre created Card in JSON format"
+  
+        # This will take in a Card object directly and use it.
+  
+        try {
+            $UseThisCard = $CardObject
+        } catch {
+            Write-Error "The card could not be rendered, for assistance or to file an issue, please visit $GitHubRepo"
+        }
+      } else {
+        Write-Error "The supplied Card does not appear to be valid"
+        break
+      }
+
     }
   
     if ($WebhookURL) {
