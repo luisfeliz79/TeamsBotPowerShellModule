@@ -97,6 +97,26 @@ $Card.AddCustomBodyPart($Header)
 
 # Code for Alert body, which depends on what details were sent
 
+## Service Health Alert
+
+if ($Body.data.essentials.monitoringService -eq 'ServiceHealth'){
+
+    if ($Body.data.alertContext.properties.defaultLanguageContent) {
+        $Card.AddSubTitle($Body.data.alertContext.properties.title)
+        $Message=$Body.data.alertContext.properties.defaultLanguageContent -replace '<p>|</p>' -replace '<strong>|</strong>','**'
+        $Card.AddTextBlock($Message)
+    }
+
+    if ($Body.data.alertContext.properties.trackingId) {
+       $ServiceHealthLink="https://portal.azure.com/#blade/Microsoft_Azure_Health/AzureHealthBrowseBlade/trackingId/{0}" -f $Body.data.alertContext.properties.trackingId
+       $Card.AddAction("View Service Health",$ServiceHealthLink)
+    }
+ 
+
+} # End Service Health Alert
+
+
+## Others
 if ($Body.data.alertContext.properties.statusMessage) {
 
     $Card.AddSubTitle("Additional Details`n")
@@ -122,20 +142,21 @@ if ($Body.data.alertContext.condition.allOf.dimensions) {
     $MyTable+=@($MyObject)
 
     $Card.AddTable($MyTable)
-}
-
+} # end others
 
 # Code for Action buttons
 if ($Body.data.alertContext.condition.allOf.linkToFilteredSearchResultsUI) {
-    $Card.AddAction("View Results",$Body.data.alertContext.condition.allOf.linkToFilteredSearchResultsUI)
+    $Card.AddAction("View Search Results",$Body.data.alertContext.condition.allOf.linkToFilteredSearchResultsUI)
     $CalcPortalLink="https://{0}/resource{1}" -f ($Body.data.alertContext.condition.allOf.linkToFilteredSearchResultsUI -split '/')[2],$Body.data.essentials.alertId
     $Card.AddAction("View Resource",$CalcPortalLink)
 }
-$Card.AddAction("View Alerts","https://portal.azure.com/#view/Microsoft_Azure_Monitoring/AzureMonitoringBrowseBlade/~/alertsV2")
+#$Card.AddAction("View Alerts","https://portal.azure.com/#view/Microsoft_Azure_Monitoring/AzureMonitoringBrowseBlade/~/alertsV2")
+$AlertUrl="https://portal.azure.com/#blade/Microsoft_Azure_Monitoring/AlertDetailsTemplateBlade/alertId/{0}/invokedFrom/emailcommonschema" -f [System.Web.HttpUtility]::UrlEncode($Body.data.essentials.alertId)
+$Card.AddAction("View Alert",$AlertUrl)
 
 
 Send-TeamsBotMessage -verbose -Card $Card.GetCard() 
-
+Write-Information "Sent Message"
 
 # Associate values to output bindings by calling 'Push-OutputBinding'.
 Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
