@@ -128,6 +128,9 @@ function Send-TeamsBotMessage () {
   
       [Parameter(Mandatory = $true, ParameterSetName = 'UsingCard')] 
       [PsCustomObject]$Card,
+
+      [Parameter(Mandatory = $true, ParameterSetName = 'UsingCardJson')] 
+      [PsCustomObject]$CardJson,
   
       [Parameter(Mandatory = $false)] 
       [String]$WebhookURL
@@ -186,6 +189,28 @@ function Send-TeamsBotMessage () {
         break
       }
   
+    }
+
+    If ($CardJson) {
+      # A Raw card in JSON Format
+      $CardObject=$CardJson | ConvertFrom-Json
+
+      if ($CardObject.type -eq 'AdaptiveCard') {
+  
+        Write-Verbose -Message "Using a pre created Card in JSON format"
+  
+        # This will take in a Card object directly and use it.
+  
+        try {
+            $UseThisCard = $CardObject
+        } catch {
+            Write-Error "The card could not be rendered, for assistance or to file an issue, please visit $GitHubRepo"
+        }
+      } else {
+        Write-Error "The supplied Card does not appear to be valid"
+        break
+      }
+
     }
   
     if ($WebhookURL) {
@@ -287,7 +312,7 @@ function Send-TeamsBotMessage () {
   param ([string]$value)
       $This.body+=( @{
           type="TextBlock"
-          text=$value
+          text=HtmlToMarkDown -html $value
           isSubtle="true"
           wrap="true"
       } )
@@ -540,6 +565,45 @@ function Send-TeamsBotMessage () {
       Write-error "WebhookURL has not been configured, use Set-TeamsBotWebhookUrl, or environment variable TeamsBot_WebHookUrl"
       break
   }
+
+  function HTMLtoMarkDown ($html) {
+
+    $LinkTranslation=@()
+    
+    $anchorArr=$html -split '<a'
+
+    $anchorArr| ForEach-Object {
+
+        if ($_ -like '*</a>*') {
+            $HtmlLinkDef='<a'+($_ -split '</a>')[0]+'</a>'
+
+            $hrefArr=$HtmlLinkDef -split 'href='
+            $Link=($hrefArr[1] -split ' |>')[0] -replace '"'
+            $Caption=(($hrefArr[1] -split '>')[1] -split '</a')[0]
+
+            $LinkTranslation+=@{
+                ReplaceThis=$HtmlLinkDef
+                WithThis="[$Caption]($Link)"
+            }
+
+        }
+
+
+    }
+    #return $LinkTranslation
+    $LinkTranslation | ForEach-Object {
+        $html=$html -ireplace [regex]::Escape($_.ReplaceThis), $_.WithThis
+    }
+
+    $html = $html -replace '<p>|</p>' `
+                  -replace '<strong>|</strong>','**' `
+                  -replace '<br>',"`r`n" `
+                  -replace '&nbsp;' `
+                  -replace ' rel="noopener noreferrer" target="_blank"',''
+
+    return $html
+}
+
   
   $GitHubRepo="https://github.com/luisfeliz79/TeamsBotPowerShellModule"
   
