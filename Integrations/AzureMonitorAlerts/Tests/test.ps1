@@ -7,9 +7,10 @@ $Functioncode=[scriptblock]::Create($($code))
 
 $env:TeamsBot_WebhookUrl=((az keyvault secret show --name TeamsBotWebHookUrl --vault-name felizlabs-keyvault-hub) | ConvertFrom-Json).value
 
+$ErrorActionPreference = "Continue"
 Get-ChildItem -Path $RelativePath/Tests/*.json | ForEach-Object {
 
-    Test -Request (gc $_.FullName -Raw | ConvertFrom-Json) -WhatIf
+    Test -Request (gc $_.FullName -Raw | ConvertFrom-Json) -WhatIf 
 
 
 }

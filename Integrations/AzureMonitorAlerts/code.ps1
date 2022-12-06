@@ -98,12 +98,19 @@ $Card.AddCustomBodyPart($Header)
 # Code for Alert body, which depends on what details were sent
 
 ## Service Health Alert
+$HTMLtoMarkDown={
+
+    function HTMLtoMarkDown () {
+
+    }
+
+}
 
 if ($Body.data.essentials.monitoringService -eq 'ServiceHealth'){
 
     if ($Body.data.alertContext.properties.defaultLanguageContent) {
         $Card.AddSubTitle($Body.data.alertContext.properties.title)
-        $Message=$Body.data.alertContext.properties.defaultLanguageContent -replace '<p>|</p>' -replace '<strong>|</strong>','**'
+        $Message=$Body.data.alertContext.properties.defaultLanguageContent 
         $Card.AddTextBlock($Message)
     }
 

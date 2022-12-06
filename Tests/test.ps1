@@ -128,8 +128,8 @@ $Version="1.0.2"
 
 $Testing=@()
 $Error.clear()
-Test-ModuleManifest -path "..\TeamsBot\$version\TeamsBot.psd1"
-Import-Module ..\TeamsBot\$version\teamsbot.psd1 -Force
+Test-ModuleManifest -path ".\TeamsBot\$version\TeamsBot.psd1"
+Import-Module .\TeamsBot\$version\teamsbot.psd1 -Force
 
 $Testing+=TestSimpleCards
 $Testing+=TestCustomCard
@@ -146,4 +146,4 @@ $error
 
 
 Import-module PSScriptAnalyzer
-Invoke-ScriptAnalyzer ..\TeamsBot\$version -ExcludeRule PSAvoidTrailingWhitespace,PSAvoidUsingConvertToSecureStringWithPlainText 
+Invoke-ScriptAnalyzer .\TeamsBot\$version -ExcludeRule PSAvoidTrailingWhitespace,PSAvoidUsingConvertToSecureStringWithPlainText 

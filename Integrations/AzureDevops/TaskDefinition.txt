@@ -1,0 +1,20 @@
+- task: PowerShell@2
+  displayName: 'Send Teams Channel Notification'
+  condition: always()
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Sends a notification via teams
+      $WebHookUrl=$ENV:TEAMSBOTWH
+      $title="$ENV:BUILD_REPOSITORY_NAME *$ENV:AGENT_JOBSTATUS*"
+      $AppName="Date: $(Get-Date) Build: $ENV:BUILD_BUILDID"
+      $TimeElapsed=((get-date)-[datetime]$ENV:SYSTEM_PIPELINESTARTTIME).minutes
+      $Message="Pipeline {0} has {1} after {2} minutes" -f $ENV:BUILD_DEFINITIONNAME, $ENV:AGENT_JOBSTATUS, $TimeElapsed
+      $LinkUri="{0}/{1}/_build/results?buildId={2}&view=results" -f $ENV:SYSTEM_COLLECTIONURI, $ENV:BUILD_REPOSITORY_NAME, $ENV:BUILD_BUILDID
+      $LinkCaption="View Results"
+      
+      Set-PSRepository -name PSGallery -InstallationPolicy Trusted
+      Install-module TeamsBot -Verbose
+      Send-TeamsBotMessage -AppName $AppName -Title $Title -Message $Message -WebhookURL $WebHookUrl -ActionButtonTitle $LinkCaption -ActionButtonLink $LinkUri
+    ignoreLASTEXITCODE: true
+    pwsh: true
