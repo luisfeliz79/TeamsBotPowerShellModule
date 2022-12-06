@@ -124,7 +124,7 @@ Function TestSendWithStoredWebhookUrl() {
 
 $ErrorActionPreference="Stop"
 
-$Version="1.0.2"
+$Version="1.0.3"
 
 $Testing=@()
 $Error.clear()
