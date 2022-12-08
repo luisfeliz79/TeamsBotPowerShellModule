@@ -7,5 +7,5 @@
     # 'Az' = '7.*'
     #'Az.Accounts' = '2.7.1'
     #'Az.Storage'  = '4.1.1'
-    TeamsBot = '*'
+    TeamsBot = '1.*'
 }
