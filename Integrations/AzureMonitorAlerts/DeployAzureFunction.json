@@ -26,7 +26,7 @@
         "numberOfWorkers":  "1",
         "storageAccountName": "[concat(toLower(parameters('name')), 'sa')]",
         "functionAppName" :"[concat(toLower(parameters('name')), 'func')]",
-        "packageUri":""       
+        "packageUri":"https://github.com/luisfeliz79/TeamsBotPowerShellModule/blob/dev/Integrations/AzureMonitorAlerts/functionapp/releases/AzMonitorTeamsAlertV1.zip?raw=true"       
     },
     "resources": [
         {
@@ -78,7 +78,7 @@
                         },
                         {
                             "name": "TeamsBot_WebHookUrl",
-                            "value": "[parameter('TeamsBotWebHookUrl')]"
+                            "value": "[parameters('TeamsBotWebHookUrl')]"
                         },
                         {
                             "name": "WEBSITE_RUN_FROM_PACKAGE",
